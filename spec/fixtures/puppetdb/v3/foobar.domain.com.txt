@@ -1,0 +1,21 @@
+[ {
+  "certname" : "foobar.domain.com",
+  "name" : "application",
+  "value" : "foobar application"
+}, {
+  "certname" : "foobar.domain.com",
+  "name" : "datacenter",
+  "value" : "east"
+}, {
+  "certname" : "foobar.domain.com",
+  "name" : "fqdn",
+  "value" : "foobar.domain.com"
+}, {
+  "certname" : "foobar.domain.com",
+  "name" : "kernel",
+  "value" : "Linux"
+}, {
+  "certname" : "foobar.domain.com",
+  "name" : "where-did-this-come-from",
+  "value" : "puppetdb"
+} ]

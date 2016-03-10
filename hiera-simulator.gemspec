@@ -1,0 +1,31 @@
+require 'rake'
+
+Gem::Specification.new do |s|
+  s.name        = 'hiera-simulator'
+  s.version     = '0.0.1'
+  # s.platform    = Gem::Platform::RUBY
+  s.authors     = 'Kevin Paulisse'
+  s.date        = Time.now.strftime('%Y-%m-%d')
+  #  s.email       = ""
+  s.homepage    = 'http://github.com/kpaulisse/hiera-simulator'
+  s.summary     = 'Determine what hiera would output for a set of facts'
+  s.description = 'Used to pre-test changes in a Puppet codebase'
+  s.license     = 'Apache 2.0'
+
+  s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/*'] + ['.gitignore']
+  s.test_files    = Dir['spec/*']
+  s.executables   = []
+  s.require_paths = ['lib']
+
+  s.add_runtime_dependency 'rake'
+  s.add_runtime_dependency 'bundler'
+  s.add_runtime_dependency 'hiera', '= 1.3.4'
+  s.add_runtime_dependency 'httparty' # Connecting to puppetdb
+  s.add_runtime_dependency 'json'
+  s.add_runtime_dependency 'deep_merge' # Needed by hiera but not included in its gem spec
+  s.add_runtime_dependency 'quixoten-puppetdb-terminus' # Make puppetdb back end work
+
+  s.add_development_dependency 'rspec', '>= 3.0.0'
+
+  s.executables = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
+end

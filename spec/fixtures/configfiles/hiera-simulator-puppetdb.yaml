@@ -1,0 +1,3 @@
+# Mock configuration file for puppetdb
+puppetdb_url: 'http://127.0.0.1:1'
+puppetdb_api_version: 3

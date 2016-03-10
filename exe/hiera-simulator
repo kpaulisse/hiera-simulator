@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+if File.basename(File.dirname(File.absolute_path(__FILE__))) == 'exe'
+  require_relative '../lib/hiera-simulator'
+else
+  require 'hiera-simulator'
+end
+HieraSimulator::Cli.run

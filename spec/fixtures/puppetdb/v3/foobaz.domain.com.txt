@@ -1,0 +1,17 @@
+[ {
+  "certname" : "foobaz.domain.com",
+  "name" : "application",
+  "value" : "foobaz application"
+}, {
+  "certname" : "foobaz.domain.com",
+  "name" : "datacenter",
+  "value" : "central"
+}, {
+  "certname" : "foobaz.domain.com",
+  "name" : "fqdn",
+  "value" : "foobaz.domain.com"
+}, {
+  "certname" : "foobaz.domain.com",
+  "name" : "kernel",
+  "value" : "Linux"
+} ]

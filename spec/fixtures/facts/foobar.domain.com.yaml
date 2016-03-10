@@ -1,0 +1,8 @@
+--- !ruby/object:Puppet::Node::Facts
+  name: foobar.domain.com
+  values:
+    application: "foobar application"
+    datacenter: east
+    fqdn: foobar.domain.com
+    kernel: Linux
+    where-did-this-come-from: filesystem

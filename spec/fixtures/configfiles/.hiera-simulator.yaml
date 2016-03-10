@@ -1,0 +1,3 @@
+# This file is used to test to make sure that it's found in the home directory or working directory
+cat: meow
+chicken: cluck

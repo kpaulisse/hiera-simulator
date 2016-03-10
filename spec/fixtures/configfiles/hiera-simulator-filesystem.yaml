@@ -1,0 +1,2 @@
+# Configuration file for file system
+fact_dir: /needs_to_be_replaced_via_override
