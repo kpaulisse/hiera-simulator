@@ -1,5 +1,7 @@
 # Hiera Simulator
 
+[![Build Status](https://travis-ci.org/kpaulisse/hiera-simulator.svg?branch=master)](https://travis-ci.org/kpaulisse/hiera-simulator)
+
 Pull facts about a node, and then preview Hiera changes there, without touching the node.
 
 # Why?
