@@ -27,13 +27,27 @@ module HieraSimulator
     # @param default [Object] Default value
     # @return [Object] Value of config setting
     def get(key, default = nil)
-      @config.fetch(key, default)
+      @config.fetch(key, @config.fetch(key.to_s, @config.fetch(key.to_sym, default)))
     end
 
     # Merge! - Merge a hash
     # @param newhash [Hash] Hash to merge in
     def merge!(newhash)
       @config.merge!(newhash)
+    end
+
+    # Validate configuration
+    def validate
+      raise_no_config_files_found if config.empty?
+    end
+
+    # Throw "Missing Parameter" error
+    def raise_missing_parameter(parameter)
+      errmsg = "\n\nERROR!!! A required parameter (#{parameter}) was missing.\n"
+      errmsg += "Tried these files: #{filelist.inspect}\n"
+      errmsg += "(None of these files could be found)\n" if retrieve_config.empty?
+      errmsg += "Please see https://github.com/kpaulisse/hiera-simulator/blob/master/doc/troubleshooting.rb for more.\n\n"
+      raise ConfigError, errmsg
     end
 
     private
@@ -49,7 +63,6 @@ module HieraSimulator
         raise ConfigError, "File #{file} is not in the correct format. Expected hash got #{data.class}" unless data.is_a?(Hash)
         result = data.merge(result)
       end
-      raise ConfigError, 'No local or global hiera-simulator config files contain config data' if result.empty?
       result
     end
 
@@ -62,6 +75,14 @@ module HieraSimulator
       files << File.join(@home_dir, filename) unless @home_dir.nil?
       files << @global_configfile unless @global_configfile.nil?
       files
+    end
+
+    # Throw "No config files contain config data" error
+    def raise_no_config_files_found
+      errmsg = "\nNo local or global hiera-simulator config files contain config data.\n"
+      errmsg += "Perhaps you have not yet configured hiera-simulator on this system?\n"
+      errmsg += "Please see https://github.com/kpaulisse/hiera-simulator/blob/master/doc/troubleshooting.rb for more.\n\n"
+      raise ConfigError, errmsg
     end
   end
 

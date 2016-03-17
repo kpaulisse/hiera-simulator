@@ -2,7 +2,7 @@ require 'rake'
 
 Gem::Specification.new do |s|
   s.name        = 'hiera-simulator'
-  s.version     = '0.0.1'
+  s.version     = '0.1.0'
   s.authors     = 'Kevin Paulisse'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.homepage    = 'http://github.com/kpaulisse/hiera-simulator'
@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = 'Used to pre-test changes in a Puppet codebase'
   s.license     = 'Apache 2.0'
 
-  s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/*'] + ['.gitignore'] + ['bin/hiera-simulator']
+  s.files         = Dir['[A-Z]*[^~]'] + Dir['lib/**/*.rb'] + Dir['spec/*'] + ['bin/hiera-simulator']
   s.test_files    = Dir['spec/*']
   s.executables   = ['hiera-simulator']
   s.require_paths = ['lib']
