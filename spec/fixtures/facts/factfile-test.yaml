@@ -5,4 +5,4 @@
     datacenter: east
     fqdn: foobar.domain.com
     kernel: Linux
-    where-did-this-come-from: filesystem.yaml
+    where-did-this-come-from: factfile-test.yaml

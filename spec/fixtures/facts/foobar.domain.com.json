@@ -1,0 +1,7 @@
+{
+  "application": "foobar application",
+  "datacenter": "east",
+  "fqdn": "foobar.domain.com",
+  "kernel": "Linux",
+  "where-did-this-come-from": "filesystem.json"
+}

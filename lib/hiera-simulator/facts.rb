@@ -5,7 +5,9 @@ module HieraSimulator
     # @param config [HieraSimulator::Config] Configuration object
     def self.facts(config, node)
       errors = []
-      config.get(:backends, %w(FileSystem PuppetDB)).each do |backend|
+      backends = config.get(:backends, %w(FileSystem PuppetDB))
+      backends = ['FactFile'] unless config.get('fact_file', nil).nil?
+      backends.each do |backend|
         begin
           obj = Module.const_get("HieraSimulator::FactSource::#{backend}").new(config)
           return obj.facts(node)

@@ -10,14 +10,17 @@ describe HieraSimulator::Config do
       }
       expect { HieraSimulator::Config.new(options) }.to raise_error(HieraSimulator::ConfigError)
     end
+  end
 
+  describe '#validate' do
     it 'Should raise a ConfigError if there are not any files found' do
       options = {
         home_dir: HieraSimulator::Spec.gem_file('spec/fixtures/configfiles/empty'),
         global_config: HieraSimulator::Spec.gem_file('spec/fixtures/configfiles/empty/this-does-not-exist'),
         cwd: nil
       }
-      expect { HieraSimulator::Config.new(options) }.to raise_error(HieraSimulator::ConfigError)
+      testobj = HieraSimulator::Config.new(options)
+      expect { testobj.validate }.to raise_error(HieraSimulator::ConfigError)
     end
   end
 
@@ -57,6 +60,24 @@ describe HieraSimulator::Config do
       }
       testobj = HieraSimulator::Config.new(options)
       expect(testobj.get('fish', 'no sound under water')).to eq('no sound under water')
+    end
+
+    it 'Should convert between strings and symbols for keys' do
+      options = {
+        home_dir: nil,
+        global_config: nil,
+        cwd: nil,
+        config: {
+          symbol_key: 'symbol_value',
+          'string_key' => 'string_value'
+        }
+      }
+      testobj = HieraSimulator::Config.new(options)
+      expect(testobj.get('symbol_key', 'default_value')).to eq('symbol_value')
+      expect(testobj.get(:symbol_key, 'default_value')).to eq('symbol_value')
+      expect(testobj.get('string_key', 'default_value')).to eq('string_value')
+      expect(testobj.get(:string_key, 'default_value')).to eq('string_value')
+      expect(testobj.get(:baz, 'default_value')).to eq('default_value')
     end
   end
 end

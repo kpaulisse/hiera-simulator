@@ -16,6 +16,7 @@ module HieraSimulator
     def self.execute(options, config_in)
       config = HieraSimulator::Config.new(config_in)
       command_line_override(options, config)
+      config.validate
       facts = HieraSimulator::Facts.facts(config, options[:hostname])
       raise "No facts found for host #{options[:hostname]}" if facts.empty?
       hiera_options = { resolution_type: options[:resolution_type], verbose: options[:verbose] }
@@ -39,7 +40,7 @@ module HieraSimulator
     # Overrides from command line
     def self.command_line_override(options, config)
       merges = {}
-      [:hiera_yaml_path, :hiera_datadir, :factdir].each do |key|
+      [:hiera_yaml_path, :json_datadir, :yaml_datadir, :factdir, :fact_file].each do |key|
         merges[key.to_s] = options[key] if options.key?(key) && !options[key].nil?
       end
       config.merge!(merges) unless merges.empty?
@@ -51,7 +52,8 @@ module HieraSimulator
       result = {
         verbose: false,
         resolution_type: :priority,
-        hostname: nil
+        hostname: nil,
+        fact_file: nil
       }
       OptionParser.new do |opts|
         opts.banner = 'Usage: hiera-simulator -n <Node_FQDN> [options] key'
@@ -62,8 +64,12 @@ module HieraSimulator
           raise Errno::ENOENT, 'The specified hiera.yaml file does not exist' unless File.file?(result[:hiera_yaml_path])
         end
 
-        opts.on('--yaml-datadir DIR1', 'YAML data directory') do |datadir|
+        opts.on('--yaml-datadir DIR', 'YAML data directory') do |datadir|
           result[:yaml_datadir] = find_dir(datadir)
+        end
+
+        opts.on('--json-datadir DIR', 'JSON data directory') do |datadir|
+          result[:json_datadir] = find_dir(datadir)
         end
 
         opts.on('-d', '--debug', 'Turn on Hiera debugging/verbose mode') do
@@ -72,6 +78,11 @@ module HieraSimulator
 
         opts.on('--hostname FQDN', '-n', 'Use facts from last run of FQDN') do |fqdn|
           result[:hostname] = fqdn
+        end
+
+        opts.on('--fact-file PATH', 'Use facts from the specified file (.yaml/.json only)') do |path|
+          result[:fact_file] = path
+          result[:hostname] = '.' if result[:hostname].nil?
         end
 
         opts.on('--factsdir DIR', '-f', 'Base directory of YAML facts') do |factdir|
@@ -113,9 +124,9 @@ module HieraSimulator
       result = []
       dir_array = dir.is_a?(Array) ? dir : [dir]
       dir_array.each do |dir_ent|
-        if File.dir?(dir_ent)
+        if File.directory?(dir_ent)
           result << File.absolute_path(dir_ent)
-        elsif File.dir?(File.join(File.absolute_path(Dir.getwd), factdir))
+        elsif File.directory?(File.join(File.absolute_path(Dir.getwd), factdir))
           result << File.join(File.absolute_path(Dir.getwd), dir_ent)
         else
           raise Errno::ENOENT, "Specified directory #{dir_ent} does not exist or is inaccessible"

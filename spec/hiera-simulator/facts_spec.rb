@@ -11,6 +11,16 @@ describe HieraSimulator::Facts do
   end
 
   describe '#facts' do
+    it 'Should use FactFile backend when configured to do so' do
+      options = {}
+      options[:config] = @options[:config].dup
+      options[:config][:fact_file] = HieraSimulator::Spec.gem_file('spec/fixtures/facts/factfile-test.yaml')
+      config = HieraSimulator::Config.new(options)
+      result = HieraSimulator::Facts.facts(config, 'foobar.domain.com')
+      expect(result['::application']).to eq('foobar application')
+      expect(result['::where-did-this-come-from']).to eq('factfile-test.yaml')
+    end
+
     it 'Should use the PuppetDB backend when configured to do so' do
       options = {}
       options[:config] = @options[:config].dup
@@ -28,14 +38,14 @@ describe HieraSimulator::Facts do
       config = HieraSimulator::Config.new(options)
       result = HieraSimulator::Facts.facts(config, 'foobar.domain.com')
       expect(result['::application']).to eq('foobar application')
-      expect(result['::where-did-this-come-from']).to eq('filesystem')
+      expect(result['::where-did-this-come-from']).to eq('filesystem.yaml')
     end
 
     it 'Should first try the FileSystem if backend is not explicitly set' do
       config = HieraSimulator::Config.new(@options)
       result = HieraSimulator::Facts.facts(config, 'foobar.domain.com')
       expect(result['::application']).to eq('foobar application')
-      expect(result['::where-did-this-come-from']).to eq('filesystem')
+      expect(result['::where-did-this-come-from']).to eq('filesystem.yaml')
     end
   end
 end

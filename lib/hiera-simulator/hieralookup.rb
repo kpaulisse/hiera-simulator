@@ -30,13 +30,13 @@ module HieraSimulator
 
       if hiera_cfg[:backends].include?('yaml')
         yaml_datadir = config.get('yaml_datadir', nil)
-        raise 'Using yaml backend yet yaml_datadir was not specified in configuration' if yaml_datadir.nil?
+        config.raise_missing_parameter 'yaml_datadir' if yaml_datadir.nil?
         hiera_cfg[:yaml] = { datadir: yaml_datadir }
       end
 
       if hiera_cfg[:backends].include?('json')
         json_datadir = config.get('json_datadir', nil)
-        raise 'Using JSON backend yet json_datadir was not specified in configuration' if json_datadir.nil?
+        config.raise_missing_parameter 'json_datadir' if json_datadir.nil?
         hiera_cfg[:json] = { datadir: json_datadir }
       end
 
