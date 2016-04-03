@@ -37,4 +37,5 @@ build/
 .rvmrc
 bin/*
 !bin/hiera-simulator
+Gemfile.lock
 .ruby-version

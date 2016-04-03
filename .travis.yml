@@ -1,3 +1,6 @@
+gemfile:
+  - Gemfile
+  - gemspec-ci/Gemfile
 language: ruby
 rvm:
   - 2.0.0
