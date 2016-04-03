@@ -4,13 +4,13 @@
 
 Pull facts about a node, and then preview Hiera changes there, without touching the node.
 
+This is intended for Puppet 3.x and below. In Puppet 4, the [`puppet lookup` command](https://docs.puppetlabs.com/puppet/4.4/reference/man/lookup.html) accomplishes the same thing. If you have Puppet 4, you should be using this built-in tool, and I will too once my Puppet installation gets to version 4.
+
 # Why?
 
 [Hiera](https://github.com/puppetlabs/hiera) is a critical part of a Puppet implementation, and it is amazingly helpful to separate data from code.
 
 The Hiera Simulator simplifies the development process by allowing someone to "preview" Hiera changes without committing to source control, awaiting results from CI tests, or touching any real hosts in the environment. While it's possible to do all this with stock Hiera, that involves copying facts and using less common command line options. Hiera Simulator handles all that for you, and then calls the *actual Hiera code* to do your lookup.
-
-I have read that Puppet's new `lookup` function will have the same sort of functionality, so it's quite possible that the Hiera Simulator's usefulness will be subsumed by tools that ship with Puppet. If this does come to pass, :+1:!
 
 # Setup
 

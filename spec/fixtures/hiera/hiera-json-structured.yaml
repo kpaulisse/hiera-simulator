@@ -1,0 +1,11 @@
+---
+:backends:
+  - json
+:json:
+  :datadir: /var/tmp/hieradata
+:hierarchy:
+  - servers/%{fqdn}
+  - datacenter/%{datacenter}
+  - common
+:merge_behavior: deeper
+:logger: console

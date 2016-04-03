@@ -1,0 +1,59 @@
+[
+    {
+        "certname": "foobar.domain.com",
+        "environment": "production",
+        "name": "application",
+        "value": "foobar application"
+    },
+    {
+        "certname": "foobar.domain.com",
+        "environment": "production",
+        "name": "fqdn",
+        "value": "foobar.domain.com"
+    },
+    {
+        "certname": "foobar.domain.com",
+        "environment": "production",
+        "name": "kernel",
+        "value": "Linux"
+    },
+    {
+        "certname": "foobar.domain.com",
+        "environment": "production",
+        "name": "datacenter",
+        "value": "east"
+    },
+    {
+        "certname": "foobar.domain.com",
+        "environment": "production",
+        "name": "where-did-this-come-from",
+        "value": "puppetdb-v4"
+    },
+    {
+        "certname": "foobar.domain.com",
+        "environment": "production",
+        "name": "os",
+        "value": {
+            "architecture": "amd64",
+            "distro": {
+                "codename": "trusty",
+                "description": "Ubuntu 14.04.2 LTS",
+                "id": "Ubuntu",
+                "release": {
+                    "full": "14.04",
+                    "major": "14.04"
+                }
+            },
+            "family": "Debian",
+            "hardware": "x86_64",
+            "name": "Ubuntu",
+            "release": {
+                "full": "14.04",
+                "major": "14.04"
+            },
+            "selinux": {
+                "enabled": false
+            }
+        }
+    }
+]

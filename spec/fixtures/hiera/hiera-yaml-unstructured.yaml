@@ -1,0 +1,12 @@
+---
+:backends:
+  - yaml
+:yaml:
+  :datadir: /var/tmp/hieradata
+:hierarchy:
+  - servers/%{::fqdn}
+  - os/%{::os::distro::id}/%{::os::distro::codename}
+  - datacenter/%{::datacenter}
+  - common
+:merge_behavior: deeper
+:logger: console
