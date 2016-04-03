@@ -49,6 +49,46 @@ describe HieraSimulator::FactSource::PuppetDB do
     end
   end
 
+  describe '#stringify_keys' do
+    it 'Should not touch values that are not a hash' do
+      testobj = HieraSimulator::FactSource::PuppetDB.new(@config)
+      facts = {
+        'number-one' => 1,
+        'false'      => false,
+        'a-string'   => 'kittens',
+      }
+      facts.each do |name, value|
+        result = testobj.stringify(name, value)
+        expect(result.size).to eq(1)
+        expect(result[0][0]).to eq('::' + name)
+        expect(result[0][1]).to eq(value)
+      end
+    end
+
+    it 'Should stringify a hash' do
+      testobj = HieraSimulator::FactSource::PuppetDB.new(@config)
+      facts = {
+        'number-one' => 1,
+        'kittens' => {
+          'eyecolor' => {
+            'siamese' => 'blue',
+            'tabby' => 'green'
+          }
+        }
+      }
+      test_result = {}
+      facts.each do |name, value|
+        testobj.stringify(name, value).each do |y|
+          test_result[y[0]] = y[1]
+        end
+      end
+      expect(test_result.key?('::kittens')).to eq(false)
+      expect(test_result.key?('kittens')).to eq(false)
+      expect(test_result.key?('::kittens::eyecolor::siamese')).to eq(true)
+      expect(test_result['::kittens::eyecolor::siamese']).to eq('blue')
+    end
+  end
+
   describe '#facts_v3' do
     it 'Should add the leading :: to all fact names' do
       filepath = HieraSimulator::Spec.gem_file('spec/fixtures/puppetdb/v3/foobar.domain.com.txt')
@@ -57,6 +97,41 @@ describe HieraSimulator::FactSource::PuppetDB do
       expect(result.key?('::kernel')).to be true
       expect(result.key?('kernel')).to be false
       expect(result['::kernel']).to eq('Linux')
+    end
+  end
+
+  describe '#facts_v4' do
+    it 'Should add the leading :: to all fact names when unstructured' do
+      filepath = HieraSimulator::Spec.gem_file('spec/fixtures/puppetdb/v4/foobar.domain.com.txt')
+      testobj = HieraSimulator::FactSource::PuppetDB.new(
+        @config,
+        mock_puppetdb: filepath,
+        puppetdb_api_version: 4,
+        stringify_facts: true
+      )
+      result = testobj.facts('foonode')
+      expect(result.key?('::kernel')).to be true
+      expect(result.key?('kernel')).to be false
+      expect(result['::kernel']).to be_a(String)
+      expect(result['::kernel']).to eq('Linux')
+    end
+
+    it 'Should handle non-stringified facts' do
+      filepath = HieraSimulator::Spec.gem_file('spec/fixtures/puppetdb/v4/foobar.domain.com.txt')
+      testobj = HieraSimulator::FactSource::PuppetDB.new(
+        @config,
+        mock_puppetdb: filepath,
+        puppetdb_api_version: 4,
+        stringify_facts: false
+      )
+      result = testobj.facts('foonode')
+      expect(result.key?('::kernel')).to be false
+      expect(result.key?('kernel')).to be true
+      expect(result['kernel']).to eq('Linux')
+      expect(result.key?('::os')).to be false
+      expect(result.key?('os')).to be true
+      expect(result['os']).to be_a(Hash)
+      expect(result['os']['distro']['codename']).to eq('trusty')
     end
   end
 end
