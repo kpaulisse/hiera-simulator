@@ -38,4 +38,5 @@ build/
 bin/*
 !bin/hiera-simulator
 Gemfile.lock
+Gemfile.*.lock
 .ruby-version

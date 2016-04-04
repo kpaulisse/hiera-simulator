@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'hiera-simulator'
-  s.version     = '0.2.0'
+  s.version     = '0.2.1'
   s.authors     = 'Kevin Paulisse'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.homepage    = 'http://github.com/kpaulisse/hiera-simulator'
@@ -15,11 +15,10 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'rake'
   s.add_runtime_dependency 'bundler'
-  s.add_runtime_dependency 'hiera', '= 1.3.4'
+  s.add_runtime_dependency 'hiera'
   s.add_runtime_dependency 'httparty' # Connecting to puppetdb
   s.add_runtime_dependency 'json'
   s.add_runtime_dependency 'deep_merge' # Needed by hiera but not included in its gem spec
-  s.add_runtime_dependency 'quixoten-puppetdb-terminus' # Make puppetdb back end work
 
   s.add_development_dependency 'rspec', '>= 3.0.0'
 end

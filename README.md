@@ -19,6 +19,8 @@ This code is meant to run on a developer's workstation -- perhaps in some cases 
 - [Installation](./docs/installation.md)
 - [Configuration](./docs/configuration.md)
 
+Because the version of Hiera to use is set in the Gemfile, you may have to update the Gemfile to match your version. This code is intended to work correctly with both Hiera 1.3.4 and Hiera 3.1. No default version of the Hiera gem is required in the default Gemfile, so if you run Puppet from gems (like we do at my work), it won't conflict.
+
 # Usage
 
 Type `hiera-simulator --help` for a list of command line options.
@@ -38,3 +40,11 @@ Here are the important ones:
 # Limitations
 
 - [Limitations](./docs/limitations.md)
+
+# Changelog
+
+| Version | Notes |
+|---------|-------|
+| 0.2.1   | Remove PuppetDB hiera backend support, add --[no-]stringify-facts command line option |
+| 0.2.0   | Add support for PuppetDB API v4 |
+| 0.1.0   | Initial release |

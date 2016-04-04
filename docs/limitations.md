@@ -7,8 +7,12 @@ I am aware of these limitations, which exist because I do not have an appropriat
   - JSON
   - YAML
 
-  If you're using something else (CouchDB, MySQL, Postgres, DynamoDB, or anything else you might think of to use as a Hiera backend) this Hiera simulator currently does not support you.
+  If you're using something else (CouchDB, MySQL, Postgres, DynamoDB, PuppetDB, or anything else you might think of to use as a Hiera backend) this Hiera simulator currently does not support you.
 
-- Hiera version. The Hiera simulator currently only supports the older version of Hiera (1.3.4).
+- Hiera version. By default it will pull the latest version of Hiera. If you need hiera version 1, you may wish to run this with:
 
-  It has not been tested with newer versions of Hiera -- it may or may not work. You would have to modify the gemspec manually.
+  ```
+  BUNDLE_GEMFILE=Gemfile.hiera1 bundle exec bin/hiera-simulator ...
+  ```
+
+  Currently it should work correctly with Hiera 1.3.4 and the latest version of Hiera (3.1.1 as of the time of this writing). Please file an issue if it does not.

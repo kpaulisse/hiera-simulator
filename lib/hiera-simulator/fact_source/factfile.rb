@@ -14,6 +14,7 @@ module HieraSimulator
 
       # Get facts for a node
       # @param node [String] IGNORED
+      # @param stringify_facts [Boolean] IGNORED
       # @return [Hash] Facts from the node in question
       def facts(node = nil)
         raise HieraSimulator::FactLookupError, "Invalid fact file specified: #{@fact_file}" unless File.file?(@fact_file)

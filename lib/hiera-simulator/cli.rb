@@ -17,7 +17,7 @@ module HieraSimulator
       config = HieraSimulator::Config.new(config_in)
       command_line_override(options, config)
       config.validate
-      facts = HieraSimulator::Facts.facts(config, options[:hostname])
+      facts = HieraSimulator::Facts.facts(config, options[:hostname], options[:stringify_facts])
       raise "No facts found for host #{options[:hostname]}" if facts.empty?
       hiera_options = { resolution_type: options[:resolution_type], verbose: options[:verbose] }
       HieraSimulator::HieraLookup.lookup(options[:key], config, facts, hiera_options)
@@ -53,7 +53,8 @@ module HieraSimulator
         verbose: false,
         resolution_type: :priority,
         hostname: nil,
-        fact_file: nil
+        fact_file: nil,
+        stringify_facts: nil,
       }
       OptionParser.new do |opts|
         opts.banner = 'Usage: hiera-simulator -n <Node_FQDN> [options] key'
@@ -99,6 +100,10 @@ module HieraSimulator
 
         opts.on('--hash', 'Return answer as an hash') do
           result[:resolution_type] = :hash
+        end
+
+        opts.on('--[no-]stringify-facts', 'Override default stringify facts behavior') do |x|
+          result[:stringify_facts] = x
         end
       end.parse!
 
