@@ -40,6 +40,12 @@ module HieraSimulator
         hiera_cfg[:json] = { datadir: json_datadir }
       end
 
+      other_backends = hiera_cfg[:backends] - ['yaml','json']
+      if other_backends.any?
+        STDERR.puts "WARNING: Ignoring unsupported backend(s): #{other_backends.join(', ')}"
+        hiera_cfg[:backends] = hiera_cfg[:backends] & ['yaml', 'json']
+      end
+
       hiera_file = Tempfile.new('hiera.yaml')
       hiera_file.write hiera_cfg.to_yaml
       hiera_file.close

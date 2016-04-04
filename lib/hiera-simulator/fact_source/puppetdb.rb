@@ -26,16 +26,6 @@ module HieraSimulator
         raise HieraSimulator::FactSourceError, message
       end
 
-      # Stringify key-value, needed until we upgrade our ancient version of hiera
-      def stringify(name, value, prior = '::' + name)
-        return [[ prior.sub(/::$/, ''), value ]] unless value.is_a?(Hash)
-        result = []
-        value.each do |k, v|
-          result.concat stringify(k, v, prior + '::' + k)
-        end
-        result
-      end
-
       private
 
       def determine_stringify_facts(override, config)
@@ -54,7 +44,7 @@ module HieraSimulator
         if @stringify_facts
           result = {}
           reply.each do |x|
-            stringify(x['name'], x['value']).each do |y|
+            HieraSimulator::FactSource::Util.stringify(x['name'], x['value']).each do |y|
               result[y[0]] = y[1]
             end
           end

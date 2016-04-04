@@ -47,6 +47,20 @@ module HieraSimulator
         data.each { |k, v| result['::' + k] = v }
         result
       end
+
+      # Stringify key-value, needed for some older versions of Puppet and hiera
+      # @param name [String] current key
+      # @param value [Object] current value
+      # @param prior [String] prior value, for recursion
+      # @return [Array<[name, value]>] Stringified facts and values
+      def self.stringify(name, value, prior = '::' + name)
+        return [[ prior.sub(/::$/, ''), value ]] unless value.is_a?(Hash)
+        result = []
+        value.each do |k, v|
+          result.concat stringify(k, v, prior + '::' + k)
+        end
+        result
+      end
     end
   end
 end

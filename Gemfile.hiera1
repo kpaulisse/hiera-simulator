@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 gemspec
-gem 'hiera'
+gem 'hiera', '= 1.3.4'

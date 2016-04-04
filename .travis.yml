@@ -1,6 +1,6 @@
 gemfile:
-  - Gemfile
-  - gemspec-ci/Gemfile
+  - Gemfile.hiera1
+  - Gemfile.hiera3
 language: ruby
 rvm:
   - 2.0.0
