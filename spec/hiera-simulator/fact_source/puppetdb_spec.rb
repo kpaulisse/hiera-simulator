@@ -21,6 +21,26 @@ describe HieraSimulator::FactSource::PuppetDB do
     end
   end
 
+  describe '#facts_common' do
+    it 'Should raise HieraSimulator::FactLookupError if PuppetDB returns error' do
+      filepath = HieraSimulator::Spec.gem_file('spec/fixtures/puppetdb/error-response.json')
+      testobj = HieraSimulator::FactSource::PuppetDB.new(@config, mock_puppetdb: filepath, puppetdb_api_version: 4)
+      expected_error_message = 'Error from PuppetDB: No information is known about node aldfkaslfkasdkf'
+      expect do
+        result = testobj.facts('aldfkaslfkasdkf')
+      end.to raise_error(HieraSimulator::FactLookupError, expected_error_message)
+    end
+
+    it 'Should raise HieraSimulator::FactLookupError if PuppetDB does not return array' do
+      filepath = HieraSimulator::Spec.gem_file('spec/fixtures/puppetdb/unexpected-response.json')
+      testobj = HieraSimulator::FactSource::PuppetDB.new(@config, mock_puppetdb: filepath, puppetdb_api_version: 4)
+      expected_error_message = 'Unexpected data from PuppetDB: Expected Array got Hash'
+      expect do
+        result = testobj.facts('aldfkaslfkasdkf')
+      end.to raise_error(HieraSimulator::FactSourceError, expected_error_message)
+    end
+  end
+
   describe '#facts' do
     it 'Should raise PuppetDBError if invalid PuppetDB API version is detected' do
       override = { puppetdb_api_version: -100 }
