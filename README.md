@@ -45,6 +45,7 @@ Here are the important ones:
 
 | Version | Notes |
 |---------|-------|
+| 0.2.2   | Raise error directly if PuppetDB responds with code 200 but has an error message |
 | 0.2.1   | Remove PuppetDB hiera backend support, add --[no-]stringify-facts command line option |
 | 0.2.0   | Add support for PuppetDB API v4 |
 | 0.1.0   | Initial release |

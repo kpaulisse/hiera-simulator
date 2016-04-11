@@ -40,6 +40,18 @@ module HieraSimulator
       def facts_common(uri)
         reply = response(uri)
 
+        # Check for an error from PuppetDB despite return code 200
+        if reply.is_a?(Hash) && reply.key?('error')
+          message = "Error from PuppetDB: #{reply['error']}"
+          raise HieraSimulator::FactLookupError, message
+        end
+
+        # Check for unexpected data - we expect an array
+        unless reply.is_a?(Array)
+          message = "Unexpected data from PuppetDB: Expected Array got #{reply.class}"
+          raise HieraSimulator::FactSourceError, message
+        end
+
         # Stringify facts if needed (old hiera, old PuppetDB)
         if @stringify_facts
           result = {}
