@@ -14,7 +14,7 @@ module HieraSimulator
       hiera = Hiera.new(config: hiera_tmp_config)
       Hiera.logger = options.fetch(:verbose, false) ? 'console' : 'noop'
       result = hiera.lookup(key, nil, facts, nil, options.fetch(:resolution_type, :priority))
-      File.unlink(hiera_tmp_config)
+      File.unlink(hiera_tmp_config) if File.file?(hiera_tmp_config)
       result
     end
 
