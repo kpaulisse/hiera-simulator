@@ -15,7 +15,11 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'rake'
   s.add_runtime_dependency 'bundler'
-  s.add_runtime_dependency 'hiera'
+  if ENV["HIERA_VERSION"]
+    s.add_runtime_dependency 'hiera', "= #{ENV['HIERA_VERSION']}"
+  else
+    s.add_runtime_dependency 'hiera'
+  end
   s.add_runtime_dependency 'httparty' # Connecting to puppetdb
   s.add_runtime_dependency 'json'
   s.add_runtime_dependency 'deep_merge' # Needed by hiera but not included in its gem spec
