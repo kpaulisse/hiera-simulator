@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'hiera-simulator'
-  s.version     = '0.3.0'
+  s.version     = '0.2.3'
   s.authors     = 'Kevin Paulisse'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.homepage    = 'http://github.com/kpaulisse/hiera-simulator'
